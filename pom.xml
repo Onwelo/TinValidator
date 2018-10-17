@@ -7,6 +7,11 @@
     <groupId>com.onwelo</groupId>
     <artifactId>tinvalidator</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <junit.version>5.3.1</junit.version>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -19,20 +24,20 @@
             </plugin>
         </plugins>
     </build>
+
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.2.0</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>5.0.0</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 
 </project>
