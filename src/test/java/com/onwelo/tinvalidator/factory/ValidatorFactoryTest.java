@@ -19,6 +19,13 @@ public class ValidatorFactoryTest {
     }
 
     @Test
+    @DisplayName("throw exception on null parameter")
+    void throwExceptionOnNullParameter(){
+        Executable exe = () -> ValidatorFactory.findValidatorForCountryCode(null);
+        Assertions.assertThrows(NoSuchValidatorException.class, exe);
+    }
+
+    @Test
     @DisplayName("throw exception on not existing country code")
     void throwExceptionOnNotExistingCountryCode(){
         Executable exe = () -> ValidatorFactory.findValidatorForCountryCode("XX");
