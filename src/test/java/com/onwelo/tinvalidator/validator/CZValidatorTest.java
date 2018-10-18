@@ -96,8 +96,6 @@ class CZValidatorTest {
             "110501/1234, true",
             "1121011234, true",
             "1177011234, true",
-            "1155011234, true",
-            "1155011234, true"
     })
     void tinShouldComputeControlSum(final String tin, final boolean expectedResult){
         Validator v = new CZValidator();
