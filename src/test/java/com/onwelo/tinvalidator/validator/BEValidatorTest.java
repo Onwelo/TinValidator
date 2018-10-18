@@ -16,7 +16,7 @@ public class BEValidatorTest {
             "1, false",
             "9999999999, false"
     })
-    void tinShouldContainTenDigits(final String tin, final boolean expectedResult){
+    void tinShouldContainElevenDigits(final String tin, final boolean expectedResult){
         Validator v = new BEValidator();
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
