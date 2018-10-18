@@ -10,5 +10,9 @@ public interface Validator {
         return getPattern().matcher(tin).matches();
     }
 
+    default String trim(String tin){
+        return tin.replaceAll("[^\\p{IsAlphabetic}\\p{IsDigit}]", "");
+    }
+
     boolean computeControlSum(String tin);
 }

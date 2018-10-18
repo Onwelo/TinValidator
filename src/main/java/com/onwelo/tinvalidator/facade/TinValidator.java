@@ -7,17 +7,13 @@ import com.onwelo.tinvalidator.validator.Validator;
 public class TinValidator {
 
     public static boolean validate(String tin) throws NoSuchValidatorException {
-        String alphaNumericTin = removeNonAlphaNumeric(tin);
-        String countryCode = extractCountryCode(alphaNumericTin);
-        String number = extractActualNumber(alphaNumericTin);
+        String countryCode = extractCountryCode(tin);
 
         Validator nationalValidator = ValidatorFactory.findValidatorForCountryCode(countryCode);
 
-        return nationalValidator.matchRegex(number) && nationalValidator.computeControlSum(number);
-    }
+        String number = nationalValidator.trim(extractActualNumber(tin));
 
-    private static String removeNonAlphaNumeric(String tin){
-        return tin.replaceAll("[^\\p{IsAlphabetic}^\\p{IsDigit}]", "");
+        return nationalValidator.matchRegex(number) && nationalValidator.computeControlSum(number);
     }
 
     private static String extractCountryCode(String tin){
