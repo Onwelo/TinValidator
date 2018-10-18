@@ -40,6 +40,7 @@ public class EEValidatorTest {
             "37102250382, true",
             "32708101201, true",
             "46304280206, true",
+            "33309240064, true",
             "11111111212, false",
             "37112250382, false",
             "32709101201, false",
