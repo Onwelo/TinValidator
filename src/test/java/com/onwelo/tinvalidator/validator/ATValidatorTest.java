@@ -5,44 +5,43 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-@DisplayName("Polish TIN should")
-public class PLValidatorTest {
+@DisplayName("Austrian TIN should")
+public class ATValidatorTest {
 
     @ParameterizedTest
-    @DisplayName("contain ten digits")
+    @DisplayName("contain nine digits")
     @CsvSource(value = {
-            "1111111111, true",
+            "931736581, true",
             "11111111111, false",
-            "1, false",
-            "999999999, false"
+            "1, false"
     })
     void tinShouldContainTenDigits(final String tin, final boolean expectedResult){
-        Validator v = new PLValidator();
+        Validator v = new ATValidator();
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
 
     @ParameterizedTest
     @DisplayName("not contain letters")
     @CsvSource(value = {
-            "1111111111, true",
-            "111111a111, false",
-            "xxxxxxxxxx, false"
+            "111111118, true",
+            "111111a11, false",
+            "xxxxxxxxx, false"
     })
     void tinShouldNotContainLetters(final String tin, final boolean expectedResult){
-        Validator v = new PLValidator();
+        Validator v = new ATValidator();
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
 
     @ParameterizedTest
     @DisplayName("compute control sum correctly")
     @CsvSource(value = {
-            "1111111111, true",
-            "5272739561, true",
-            "1111111211, false",
-            "9272739561, false"
+            "111111118, true",
+            "931736581, true",
+            "111111123, false",
+            "931736582, false"
     })
     void tinShouldComputeControlSum(final String tin, final boolean expectedResult){
-        Validator v = new PLValidator();
+        Validator v = new ATValidator();
         Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
     }
 }
