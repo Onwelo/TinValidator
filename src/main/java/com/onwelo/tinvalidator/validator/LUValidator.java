@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public class LUValidator implements Validator {
 
-    private static final Pattern PATTERN = Pattern.compile("[0-9]{13}");
+    private static final Pattern PATTERN = Pattern.compile("([0-9]{8})|([0-9]{11})|([0-9]{13})");
 
     public Pattern getPattern() {
         return PATTERN;
@@ -12,11 +12,35 @@ public class LUValidator implements Validator {
 
     public boolean computeControlSum(String tin) {
         try {
-            return computeControlSumC12(tin)
-                    && computeControlSumC13(tin);
+            if(tin.length() == 8) {
+                return computeControlSumC7And8(tin);
+            } else if (tin.length() == 11) {
+                return computeControlSumC11(tin);
+            } else if (tin.length() == 13) {
+                return computeControlSumC12(tin)
+                        && computeControlSumC13(tin);
+            } else {
+                return false;
+            }
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    private boolean computeControlSumC7And8(String tin) {
+        return Integer.parseInt(tin.substring(0,6)) % 89 == Integer.parseInt(tin.substring(6,8));
+    }
+
+    private boolean computeControlSumC11(String tin) {
+        int[] weights = {5, 4, 3, 2, 7, 6, 5, 4, 3, 2};
+        int sum = 0;
+        for (int i = 0; i < 10; i++) {
+            int d = Integer.parseInt(tin.substring(i, i + 1));
+            sum += d * weights[i];
+        }
+        sum = sum % 11;
+        sum = sum == 0 ? 0 : 11 - sum;
+        return sum == Integer.parseInt(tin.substring(10, 11));
     }
 
     private boolean computeControlSumC12(String tin) {
