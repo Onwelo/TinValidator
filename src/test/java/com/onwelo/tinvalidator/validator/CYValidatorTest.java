@@ -6,10 +6,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 @DisplayName("Cypriot TIN should")
-public class CYValidatorTest {
+class CYValidatorTest {
 
     @ParameterizedTest
-    @DisplayName("contain nine digits")
+    @DisplayName("contain eight digits and one letter on the end")
     @CsvSource(value = {
             "00123123T, true",
             "11111111111, false",
@@ -22,7 +22,7 @@ public class CYValidatorTest {
     }
 
     @ParameterizedTest
-    @DisplayName("not contain letters but last character")
+    @DisplayName("have only one letter as a last character")
     @CsvSource(value = {
             "11111111E, true",
             "111111a11, false",
