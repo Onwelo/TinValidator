@@ -2,6 +2,8 @@ package com.onwelo.tinvalidator.validator;
 
 import java.util.regex.Pattern;
 
+//11 and 11 digits format: https://www.oecd.org/tax/automatic-exchange/crs-implementation-and-assistance/tax-identification-numbers/Luxembourg-TIN.pdf
+//8 digit format: https://www.braemoor.co.uk/software/vattestx.php
 public class LUValidator implements Validator {
 
     private static final Pattern PATTERN = Pattern.compile("([0-9]{8})|([0-9]{11})|([0-9]{13})");
