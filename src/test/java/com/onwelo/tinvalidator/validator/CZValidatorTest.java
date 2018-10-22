@@ -1,5 +1,6 @@
 package com.onwelo.tinvalidator.validator;
 
+import com.onwelo.tinvalidator.exception.NoSuchValidatorException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -9,19 +10,56 @@ import org.junit.jupiter.params.provider.CsvSource;
 class CZValidatorTest {
 
     @ParameterizedTest
-    @DisplayName("contain ten or nine digits")
+    @DisplayName("contain ten or nine or eight digits")
     @CsvSource(value = {
             "1, false",
             "99999, false",
             "111111111111111111111111/1111111111115, false",
             "110103999, true",
-            "1103043222, true"
+            "1103043222, true",
+            "11030432, true"
     })
-    void tinShouldContainTenOrNineDigits(final String tin, final boolean expectedResult){
+    void tinShouldContainTenOrNineOrEightDigits(final String tin, final boolean expectedResult){
         Validator v = new CZValidator();
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
 
+    @ParameterizedTest
+    @DisplayName("not contain 9 at first position if it has eight digits")
+    @CsvSource(value = {
+            "11030432, true",
+            "21030432, true",
+            "31030432, true",
+            "41030432, true",
+            "51030432, true",
+            "61030432, true",
+            "71030432, true",
+            "81030432, true",
+            "91030432, false",
+    })
+    void tinShouldNotContain9AtFirstPostionIfHasEightDigits(final String tin, final boolean expectedResult){
+        Validator v = new CZValidator();
+        Assertions.assertEquals(expectedResult, v.matchRegex(tin));
+    }
+
+    @ParameterizedTest
+    @DisplayName("should match case for special case nine digits regex")
+    @CsvSource(value = {
+            "680447748, true",
+            "699000899, true",
+            "699001236, true",
+            "699001510, true",
+            "699002447, true",
+            "640903926, true",
+            "899001510, false",
+            "499001510, false",
+            "599002447, false",
+
+    })
+    void tinShouldMatchSpecialCaseNineDigitsRegex(final String tin, final boolean expectedResult) throws NoSuchValidatorException {
+        Validator v = new CZValidator();
+        Assertions.assertEquals(expectedResult, v.matchRegex(tin));
+    }
 
     @ParameterizedTest
     @DisplayName("not contain letters")
@@ -81,23 +119,51 @@ class CZValidatorTest {
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
 
+
     @ParameterizedTest
-    @DisplayName("compute control sum correctly")
+    @DisplayName("should compute control sum for eight digits tin")
     @CsvSource(value = {
-            "1116011234, false",
-            "1140011234, false",
-            "1199011234, false",
-            "1199441234, false",
-            "1199551234, false",
-            "1199321234, false",
-            "110501123, true",
-            "1105011234, true",
-            "110501/123, true",
-            "110501/1234, true",
-            "1121011234, true",
-            "1177011234, true",
+            "27082440, true",
+            "25666011, true",
+            "46505334, true",
+            "49969820, true",
+            "49969820, true",
+            "61459640, true",
+            "61672530, true",
+            "46505336, false",
     })
-    void tinShouldComputeControlSum(final String tin, final boolean expectedResult){
+    void tinShouldComputeControlSumForEightDigitsTin(final String tin, final boolean expectedResult){
+        Validator v = new CZValidator();
+        Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
+    }
+
+    @ParameterizedTest
+    @DisplayName("should compute control sum for nine digits tin")
+    @CsvSource(value = {
+            "395601439, true",
+            "680447748, true",
+            "699000899, true",
+            "699001236, true",
+            "699001510, true",
+            "699002447, true",
+            "640903926, true",
+            "840903926, false",
+    })
+    void tinShouldComputeControlSumForNineDigitsTin(final String tin, final boolean expectedResult) throws NoSuchValidatorException {
+        Validator v = new CZValidator();
+        Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
+    }
+
+    @ParameterizedTest
+    @DisplayName("should compute control sum for ten digits tin")
+    @CsvSource(value = {
+            "7103192745, true",
+            "6410140792, true",
+            "6662251420, true",
+            "7133192545, false",
+            "1336692545, false",
+    })
+    void tinShouldComputeControlSumForTenDigitsTin(final String tin, final boolean expectedResult){
         Validator v = new CZValidator();
         Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
     }
