@@ -19,7 +19,7 @@ public class ITValidator implements Validator {
     public boolean computeControlSum(String tin) {
         try {
             int c8c9c10 = Integer.parseInt(tin.substring(7, 10));
-            assert (c8c9c10 > 0 && c8c9c10 < 101)
+            assert (c8c9c10 > 0 && c8c9c10 < 101) || c8c9c10 == 120
                     || c8c9c10 == 121 || c8c9c10 == 888 || c8c9c10 == 999;
 
 
