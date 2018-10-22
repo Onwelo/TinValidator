@@ -7,7 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
 @DisplayName("TIN")
-public class TinValidatorTest {
+class TinValidatorTest {
 
     @ParameterizedTest(name = "{0} should be {1}")
     @CsvFileSource(resources = "/testtins.csv")
