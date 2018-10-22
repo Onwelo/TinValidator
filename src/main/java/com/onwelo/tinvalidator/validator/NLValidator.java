@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public class NLValidator implements Validator {
 
-    private static final Pattern PATTERN = Pattern.compile("[0-9]{9}");
+    private static final Pattern PATTERN = Pattern.compile("[0-9]{9}B[0-9]{2}");
 
     public Pattern getPattern(){
             return PATTERN;
