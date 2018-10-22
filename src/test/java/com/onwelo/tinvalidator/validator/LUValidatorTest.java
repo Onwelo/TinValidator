@@ -6,46 +6,54 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 @DisplayName("Cypriot TIN should")
-class CYValidatorTest {
+class LUValidatorTest {
 
     @ParameterizedTest
-    @DisplayName("contain eight digits and one letter on the end")
+    @DisplayName("contain nine or thirteen digits")
     @CsvSource(value = {
-            "00123123T, true",
-            "11111111111, false",
+            "1234567890123, true",
+            "12345678901, true",
+            "11111111, true",
+            "1111111111, false",
+            "111111111111, false",
+            "11111111111111, false",
             "1, false",
-            "99999999, false"
+            "99999333333999, false"
     })
     void tinShouldContainTenDigits(final String tin, final boolean expectedResult){
-        Validator v = new CYValidator();
+        Validator v = new LUValidator();
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
 
     @ParameterizedTest
-    @DisplayName("have only one letter as a last character")
+    @DisplayName("not contain letters but last character")
     @CsvSource(value = {
-            "11111111E, true",
-            "111111a11, false",
-            "xxxxxxxxx, false",
-            "999999999, false"
+            "1234567890123, true",
+            "111111a111111, false",
+            "12345678901, true",
+            "1234567890a, false",
+            "12345678, true",
+            "1234567a, false",
+            "xxxxxxxxxxxxx, false",
     })
     void tinShouldNotContainLetters(final String tin, final boolean expectedResult){
-        Validator v = new CYValidator();
+        Validator v = new LUValidator();
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
 
     @ParameterizedTest
     @DisplayName("compute control sum correctly")
     @CsvSource(value = {
-            "11111111E, true",
-            "00123123T, true",
-            "99652156X, true",
-            "11111112X, false",
-            "10123123T, false",
-            "98652156X, false",
+            "1893120105732, true",
+            "1893120105733, false",
+            //missing correct 9 digit TIN
+            "99999999991, false",
+            "10000356, true",
+            "00001515, true",
+            "10000350, false",
     })
     void tinShouldComputeControlSum(final String tin, final boolean expectedResult){
-        Validator v = new CYValidator();
+        Validator v = new LUValidator();
         Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
     }
 }
