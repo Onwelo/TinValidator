@@ -4,33 +4,23 @@ import java.util.regex.Pattern;
 
 public class FIValidator implements Validator {
 
-    private static final Pattern PATTERN = Pattern.compile("\\d{6}[+\\-A]\\d{3}[0-9ABCDEFHJKLMNPRSTUVWXY]");
+    private static final Pattern PATTERN = Pattern.compile("[0-9]{8}");
 
     public Pattern getPattern(){
         return PATTERN;
     }
 
     public boolean computeControlSum(String tin) {
-        Character[] chars = {'A', 'B', 'C', 'D', 'E', 'F', 'H', 'J', 'K', 'L',
-                             'M', 'N', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-                             'Y'};
+        int[] weights = {7, 9, 10, 5, 8, 4, 2};
         try {
-            assert Integer.parseInt(tin.substring(0,2)) <= 31;
-            assert Integer.parseInt(tin.substring(0,2)) > 0;
-            assert Integer.parseInt(tin.substring(2,4)) <= 12;
-            assert Integer.parseInt(tin.substring(2,4)) > 0;
-
-            Integer remainder = Integer.parseInt(tin.substring(0, 10).replaceAll("[^\\d]", "")) % 31;
-            if (remainder < 10){
-                return remainder.toString().equals(tin.substring(10,11));
+            int sum = 0;
+            for (int i = 0; i < weights.length; i++) {
+                sum += Integer.parseInt(tin.substring(i, i + 1)) * weights[i];
             }
-            return chars[remainder-10].toString().equals(tin.substring(10,11));
-        } catch (NumberFormatException|AssertionError e) {
+            int remainder = 11 - (sum % 11);
+            return (remainder == 11 ? 0 : remainder) == Integer.parseInt(tin.substring(7, 8));
+        } catch (NumberFormatException e) {
             return false;
         }
-    }
-
-    public String trim(String tin){
-        return tin.replaceAll("[^\\p{IsAlphabetic}\\p{IsDigit}\\-+]", "");
     }
 }
