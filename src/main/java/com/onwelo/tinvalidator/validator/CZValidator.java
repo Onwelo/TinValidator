@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 public class CZValidator implements Validator {
 
     private static final Pattern PATTERN =
-            Pattern.compile("([0-8]\\d{7})|(\\d{2}[0156]\\d[0-3]\\d{4})|(\\d{2}[0-35-8]\\d[0-3]\\d{5})");
+            Pattern.compile("([0-8]\\d{7})|^6\\d{8}|(\\d{2}[0156]\\d[0-3]\\d{4})|(\\d{2}[0-35-8]\\d[0-3]\\d{5})");
 
     public Pattern getPattern(){
         return PATTERN;
@@ -93,20 +93,20 @@ public class CZValidator implements Validator {
             multiplier--;
         }
 
-        return calculateCheckNumberDifference(a1) == checkNumber;
+        return calculateCheckNumberDifference(a1) % 10 == checkNumber;
 
     }
 
 
     private int calculateCheckNumberDifference(int a1) {
-        double a2;
+        int a2;
         if(a1 % 11 == 0) {
             a2 = a1 + 11;
         } else {
-            a2 = Math.ceil(a1/11.1) * 11;
+            a2 = (int) (Math.ceil(a1/11.0) * 11);
         }
 
-        return (int) (a2 - a1);
+        return Math.abs(a2 - a1);
     }
 
     private Map<Integer, Integer> createSpecialCaseNineDigitsCheckNumberMap() {

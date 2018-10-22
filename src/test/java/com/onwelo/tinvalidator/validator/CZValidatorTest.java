@@ -1,5 +1,6 @@
 package com.onwelo.tinvalidator.validator;
 
+import com.onwelo.tinvalidator.exception.NoSuchValidatorException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -37,6 +38,25 @@ class CZValidatorTest {
             "91030432, false",
     })
     void tinShouldNotContain9AtFirstPostionIfHasEightDigits(final String tin, final boolean expectedResult){
+        Validator v = new CZValidator();
+        Assertions.assertEquals(expectedResult, v.matchRegex(tin));
+    }
+
+    @ParameterizedTest
+    @DisplayName("should match case for special case nine digits regex")
+    @CsvSource(value = {
+            "680447748, true",
+            "699000899, true",
+            "699001236, true",
+            "699001510, true",
+            "699002447, true",
+            "640903926, true",
+            "899001510, false",
+            "499001510, false",
+            "599002447, false",
+
+    })
+    void tinShouldMatchSpecialCaseNineDigitsRegex(final String tin, final boolean expectedResult) throws NoSuchValidatorException {
         Validator v = new CZValidator();
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
@@ -103,7 +123,13 @@ class CZValidatorTest {
     @ParameterizedTest
     @DisplayName("should compute control sum for eight digits tin")
     @CsvSource(value = {
+            "27082440, true",
+            "25666011, true",
             "46505334, true",
+            "49969820, true",
+            "49969820, true",
+            "61459640, true",
+            "61672530, true",
             "46505336, false",
     })
     void tinShouldComputeControlSumForEightDigitsTin(final String tin, final boolean expectedResult){
@@ -115,10 +141,15 @@ class CZValidatorTest {
     @DisplayName("should compute control sum for nine digits tin")
     @CsvSource(value = {
             "395601439, true",
+            "680447748, true",
+            "699000899, true",
+            "699001236, true",
+            "699001510, true",
+            "699002447, true",
             "640903926, true",
             "840903926, false",
     })
-    void tinShouldComputeControlSumForNineDigitsTin(final String tin, final boolean expectedResult){
+    void tinShouldComputeControlSumForNineDigitsTin(final String tin, final boolean expectedResult) throws NoSuchValidatorException {
         Validator v = new CZValidator();
         Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
     }
