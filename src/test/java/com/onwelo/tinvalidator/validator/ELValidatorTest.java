@@ -6,7 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 @DisplayName("Greece TIN should")
-class GRValidatorTest {
+class ELValidatorTest {
 
     @ParameterizedTest(name = "For nip {0} should return {1}")
     @DisplayName("contain nine digits")
@@ -17,7 +17,7 @@ class GRValidatorTest {
             "99999999, false"
     })
     void tinShouldContainTenDigits(final String tin, final boolean expectedResult) {
-        Validator v = new GRValidator();
+        Validator v = new ELValidator();
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
 
@@ -30,20 +30,20 @@ class GRValidatorTest {
             "999999999, true"
     })
     void tinShouldNotContainLetters(final String tin, final boolean expectedResult) {
-        Validator v = new GRValidator();
+        Validator v = new ELValidator();
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
 
     @ParameterizedTest(name = "For nip {0} should return {1}")
     @DisplayName("always return true, because there is no control sum")
     @CsvSource(value = {
-            "111111111, true",
-            "001231234, true",
-            "012345678, true",
-            "123456789, true"
+            "000000024, true",
+            "800420948, true",
+            "000100024, false",
+            "800420940, false"
     })
     void tinShouldComputeControlSum(final String tin, final boolean expectedResult) {
-        Validator v = new GRValidator();
+        Validator v = new ELValidator();
         Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
     }
 }
