@@ -48,6 +48,7 @@ public class NLValidatorTest {
             "822667800B01, true",
             "822754812B01, true",
             "823363247B01, true",
+            "005033019B00, false",
             "010000445B01, false",
             "000000025B01, false",
             "000000035B01, false"

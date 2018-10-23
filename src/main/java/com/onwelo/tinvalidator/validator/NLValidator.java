@@ -13,12 +13,14 @@ public class NLValidator implements Validator {
     public boolean computeControlSum(String tin) {
         int[] weights = {9, 8, 7, 6, 5, 4, 3, 2};
         try {
+            assert Integer.parseInt(tin.substring(10)) != 0;
+
             int sum = 0;
             for (int i = 0; i < weights.length; i++) {
                 sum += Integer.parseInt(tin.substring(i, i + 1)) * weights[i];
             }
             return (sum % 11) == Integer.parseInt(tin.substring(8, 9));
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException|AssertionError e) {
             return false;
         }
     }
