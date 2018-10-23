@@ -5,47 +5,43 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-@DisplayName("Cypriot TIN should")
-class CYValidatorTest {
+@DisplayName("Finnish TIN should")
+public class FIValidatorTest {
 
     @ParameterizedTest
-    @DisplayName("contain eight digits and one letter on the end")
+    @DisplayName("contain eight characters")
     @CsvSource(value = {
-            "00123123T, true",
-            "11111111111, false",
-            "1, false",
-            "99999999, false"
+            "00000027, true",
+            "111111111, false",
+            "1, false"
     })
-    void tinShouldContainTenDigits(final String tin, final boolean expectedResult){
-        Validator v = new CYValidator();
+    void tinShouldContainEightDigits(final String tin, final boolean expectedResult){
+        Validator v = new FIValidator();
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
 
     @ParameterizedTest
-    @DisplayName("have only one letter as a last character")
+    @DisplayName("not contain letters")
     @CsvSource(value = {
-            "11111111E, true",
-            "111111a11, false",
-            "xxxxxxxxx, false",
-            "999999999, false"
+            "00000027, true",
+            "10000a27, false",
+            "xxxxxxxx, false"
     })
     void tinShouldNotContainLetters(final String tin, final boolean expectedResult){
-        Validator v = new CYValidator();
+        Validator v = new FIValidator();
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
 
     @ParameterizedTest
     @DisplayName("compute control sum correctly")
     @CsvSource(value = {
-            "11111111E, true",
-            "00123123T, true",
-            "99652156X, true",
-            "11111112X, false",
-            "10123123T, false",
-            "98652156X, false",
+            "09853608, true",
+            "15380325, true",
+            "09833608, false",
+            "15381325, false"
     })
     void tinShouldComputeControlSum(final String tin, final boolean expectedResult){
-        Validator v = new CYValidator();
+        Validator v = new FIValidator();
         Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
     }
 }
