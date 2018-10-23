@@ -5,44 +5,47 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-@DisplayName("Polish TIN should")
-public class PLValidatorTest {
+@DisplayName("Cypriot TIN should")
+class CYValidatorTest {
 
     @ParameterizedTest
-    @DisplayName("contain ten digits")
+    @DisplayName("contain eight digits and one letter on the end")
     @CsvSource(value = {
-            "1111111111, true",
+            "00123123T, true",
             "11111111111, false",
             "1, false",
-            "999999999, false"
+            "99999999, false"
     })
     void tinShouldContainTenDigits(final String tin, final boolean expectedResult){
-        Validator v = new PLValidator();
+        Validator v = new CYValidator();
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
 
     @ParameterizedTest
-    @DisplayName("not contain letters")
+    @DisplayName("have only one letter as a last character")
     @CsvSource(value = {
-            "1111111111, true",
-            "111111a111, false",
-            "xxxxxxxxxx, false"
+            "11111111E, true",
+            "111111a11, false",
+            "xxxxxxxxx, false",
+            "999999999, false"
     })
     void tinShouldNotContainLetters(final String tin, final boolean expectedResult){
-        Validator v = new PLValidator();
+        Validator v = new CYValidator();
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
 
     @ParameterizedTest
     @DisplayName("compute control sum correctly")
     @CsvSource(value = {
-            "1111111111, true",
-            "5272739561, true",
-            "1111111211, false",
-            "9272739561, false"
+            "11111111E, true",
+            "00123123T, true",
+            "99652156X, true",
+            "11111112X, false",
+            "10123123T, false",
+            "98652156X, false",
     })
     void tinShouldComputeControlSum(final String tin, final boolean expectedResult){
-        Validator v = new PLValidator();
+        Validator v = new CYValidator();
         Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
     }
 }
