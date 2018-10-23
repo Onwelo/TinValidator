@@ -9,11 +9,12 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class IEValidatorTest {
 
     @ParameterizedTest
-    @DisplayName("contain seven digits and one letter")
+    @DisplayName("contain seven digits and one or two letter")
     @CsvSource(value = {
             "1234567T, true",
             "1234577A, true",
-            "1111111AA, false",
+            "1111111AA, true",
+            "1111111AX, false",
             "1A, false",
             "99999999, false",
             "A9999999, false"
@@ -24,11 +25,11 @@ public class IEValidatorTest {
     }
 
     @ParameterizedTest
-    @DisplayName("not contain letters but last one")
+    @DisplayName("not contain letters but last one or two")
     @CsvSource(value = {
             "1234567T, true",
-            "1234567T, true",
-            "1234577I, true",
+            "1234567TW, true",
+            "1234577IA, true",
             "111111A1, false",
             "XXXXXXXX, false",
             "999A9999, false"

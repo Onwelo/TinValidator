@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public class IEValidator implements Validator {
 
-    private static final Pattern PATTERN = Pattern.compile("\\d[0-9A-Z+*]\\d{5}[A-W]");
+    private static final Pattern PATTERN = Pattern.compile("\\d[0-9A-Z+*]\\d{5}[A-W][A-IW]?");
 
     public Pattern getPattern(){
         return PATTERN;
@@ -19,6 +19,9 @@ public class IEValidator implements Validator {
             int sum = 0;
             for (int i = 0; i < weights.length; i++) {
                 sum += Integer.parseInt(tin.substring(i, i + 1)) * weights[i];
+            }
+            if (tin.length() == 9 && tin.charAt(8) != 'W'){
+                sum += (tin.charAt(8) - 64) * 9;
             }
             char remainder = (char)(sum % 23);
             return (remainder == 0 ? 'W' : remainder + 64) == tin.charAt(7);
