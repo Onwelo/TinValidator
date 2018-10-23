@@ -37,7 +37,6 @@ public class LVValidatorTest {
     @DisplayName("compute control sum correctly")
     @CsvSource(value = {
             "01011012345, true",
-            "32579461005, true",
             "07091910933, true",
             "40103446084, true",
             "40103592648, true",
