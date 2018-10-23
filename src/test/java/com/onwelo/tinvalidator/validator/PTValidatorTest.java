@@ -57,7 +57,7 @@ class PTValidatorTest {
     })
     void tinShouldContainFirstDigitGreaterThanZero(final String tin, final boolean expectedResult){
         Validator v = new PTValidator();
-        Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
+        Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
 
     @ParameterizedTest
