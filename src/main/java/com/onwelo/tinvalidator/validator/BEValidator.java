@@ -4,21 +4,20 @@ import java.util.regex.Pattern;
 
 public class BEValidator implements Validator {
 
-    private static final Pattern PATTERN = Pattern.compile("[0-9]{11}");
+    private static final Pattern PATTERN = Pattern.compile("0?[1-9][0-9]{8}");
 
     public Pattern getPattern(){
         return PATTERN;
     }
 
     public boolean computeControlSum(String tin) {
+        if (tin.length() == 9){
+            tin = "0" + tin;
+        }
         try {
-            assert Integer.parseInt(tin.substring(2,4)) <= 12;
-            assert Integer.parseInt(tin.substring(4,6)) <= 31;
-            int ctrlDigit = 97 - (Integer.parseInt(tin.substring(0,9)) % 97);
-            int ctrlDigit2 = 97 - (Integer.parseInt(2 + tin.substring(0,9)) % 97);
-            return ctrlDigit == Integer.parseInt(tin.substring(9, 11))
-                    || ctrlDigit2 == Integer.parseInt(tin.substring(9, 11)) ;
-        } catch (NumberFormatException|AssertionError e) {
+            int ctrlDigit = 97 - (Integer.parseInt(tin.substring(0,8)) % 97);
+            return ctrlDigit == Integer.parseInt(tin.substring(8, 10));
+        } catch (NumberFormatException e) {
             return false;
         }
     }

@@ -43,6 +43,7 @@ class CYValidatorTest {
             "11111112X, false",
             "10123123T, false",
             "98652156X, false",
+            "12111112E, false"
     })
     void tinShouldComputeControlSum(final String tin, final boolean expectedResult){
         Validator v = new CYValidator();

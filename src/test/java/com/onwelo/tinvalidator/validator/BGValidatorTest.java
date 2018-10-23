@@ -9,14 +9,15 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class BGValidatorTest {
 
     @ParameterizedTest
-    @DisplayName("contain ten digits")
+    @DisplayName("contain nine or ten digits")
     @CsvSource(value = {
+            "111111111, true",
             "1111111110, true",
             "11111111111, false",
             "1, false",
-            "999999999, false"
+            "99999999, false"
     })
-    void tinShouldContainTenDigits(final String tin, final boolean expectedResult){
+    void tinShouldContainNineOrTenDigits(final String tin, final boolean expectedResult){
         Validator v = new BGValidator();
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
@@ -24,9 +25,11 @@ public class BGValidatorTest {
     @ParameterizedTest
     @DisplayName("not contain letters")
     @CsvSource(value = {
+            "111111111, true",
             "1111111110, true",
             "111111a111, false",
-            "xxxxxxxxxx, false"
+            "xxxxxxxxxx, false",
+            "xxxxxxxxx, false"
     })
     void tinShouldNotContainLetters(final String tin, final boolean expectedResult){
         Validator v = new BGValidator();
@@ -36,10 +39,14 @@ public class BGValidatorTest {
     @ParameterizedTest
     @DisplayName("compute control sum correctly")
     @CsvSource(value = {
-            "1111111110, true",
-            "7501010010, true",
-            "1111111210, false",
-            "7501110010, false"
+            "101004508, true",
+            "0041010002, true",
+            "0000100159, true",
+            "0000100153, true",
+            "101014508, false",
+            "0041010012, false",
+            "0000101159, false",
+            "0000100253, false"
     })
     void tinShouldComputeControlSum(final String tin, final boolean expectedResult){
         Validator v = new BGValidator();
