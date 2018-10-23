@@ -13,24 +13,29 @@ public class SIValidator implements Validator {
 
     @Override
     public boolean computeControlSum(String tin) {
-        int multiplier = 8;
-        int sum = 0;
-        char[] tinArray = tin.toCharArray();
-        int checkNumber = Character.getNumericValue(tinArray[tinArray.length - 1]);
+        try {
+            int multiplier = 8;
+            int sum = 0;
+            char[] tinArray = tin.toCharArray();
+            int checkNumber = Character.getNumericValue(tinArray[tinArray.length - 1]);
 
-        for (int i = 0; i < tinArray.length - 1; i++) {
-            sum += Character.getNumericValue(tinArray[i]) * multiplier;
-            multiplier--;
-        }
+            for (int i = 0; i < tinArray.length - 1; i++) {
+                sum += Character.getNumericValue(tinArray[i]) * multiplier;
+                multiplier--;
+            }
 
-        int r = 11 - sum % 11;
+            int r = 11 - sum % 11;
 
-        if (r == 10) {
-            r = 0;
-        } else if (r == 11) {
+            if (r == 10) {
+                r = 0;
+            } else if (r == 11) {
+                return false;
+            }
+
+            return checkNumber == r;
+
+        } catch (NumberFormatException e) {
             return false;
         }
-
-        return checkNumber == r;
     }
 }
