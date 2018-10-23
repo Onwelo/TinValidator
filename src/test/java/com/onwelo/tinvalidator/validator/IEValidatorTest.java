@@ -9,33 +9,29 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class IEValidatorTest {
 
     @ParameterizedTest
-    @DisplayName("contain seven digits and one or two letters")
+    @DisplayName("contain seven digits and one letter")
     @CsvSource(value = {
             "1234567T, true",
-            "1234567TW, true",
-            "1234577W, true",
-            "1234577WW, true",
-            "1234577IA, true",
-            "1111111AAA, false",
+            "1234577A, true",
+            "1111111AA, false",
             "1A, false",
-            "99999999, false"
+            "99999999, false",
+            "A9999999, false"
     })
-    void tinShouldContainTenDigits(final String tin, final boolean expectedResult){
+    void tinShouldContainSevenDigitsAndLetter(final String tin, final boolean expectedResult){
         Validator v = new IEValidator();
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
 
     @ParameterizedTest
-    @DisplayName("not contain letters but last one or two characters")
+    @DisplayName("not contain letters but last one")
     @CsvSource(value = {
             "1234567T, true",
-            "1234567TW, true",
-            "1234577W, true",
-            "1234577WW, true",
-            "1234577IA, true",
-            "111111a11, false",
-            "xxxxxxxxx, false",
-            "999999999, false"
+            "1234567T, true",
+            "1234577I, true",
+            "111111A1, false",
+            "XXXXXXXX, false",
+            "999A9999, false"
     })
     void tinShouldNotContainLetters(final String tin, final boolean expectedResult){
         Validator v = new IEValidator();
@@ -45,13 +41,13 @@ public class IEValidatorTest {
     @ParameterizedTest
     @DisplayName("compute control sum correctly")
     @CsvSource(value = {
-            "1234567T, true",
-            "1234567TW, true",
-            "1234577W, true",
-            "1234577WW, true",
-            "1234577IA, true",
-            "1111111AB, false",
-            "1234577AW, false",
+            "0000002D, true",
+            "6336982T, true",
+            "1409095C, true",
+            "8Z49289F, true",
+            "9F70164P, true",
+            "1111111B, false",
+            "1245777W, false",
             "1234577E, false",
     })
     void tinShouldComputeControlSum(final String tin, final boolean expectedResult){
