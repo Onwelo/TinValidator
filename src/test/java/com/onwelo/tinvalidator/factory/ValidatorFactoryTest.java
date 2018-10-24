@@ -39,11 +39,4 @@ public class ValidatorFactoryTest {
         Validator v = ValidatorFactory.findValidatorForCountryCode("PL");
         Assertions.assertTrue(v instanceof PLValidator);
     }
-
-    @Test
-    @DisplayName("fetch FRValidator by 'FR' string")
-    void FRValidatorFetchingTest() throws Exception{
-        Validator v = ValidatorFactory.findValidatorForCountryCode("FR");
-        Assertions.assertTrue(v instanceof FRValidator);
-    }
 }
