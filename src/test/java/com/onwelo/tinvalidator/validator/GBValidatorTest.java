@@ -11,17 +11,28 @@ public class GBValidatorTest {
     @DisplayName("contain five, nine or twelve characters")
     @CsvSource(value = {
             "GD111, true",
-            "GD555, false",
             "HA666, true",
-            "HA333, false",
-            "GA111, false",
-            "HD776, false",
             "111111111, true",
             "111111111111, true",
             "11111111, false",
             "1111111111, false",
             "11111111111, false",
             "1111111111111, false",
+    })
+    void tinShouldContainAllowedNumberOfCharacters(final String tin, final boolean expectedResult){
+        Validator v = new GBValidator();
+        Assertions.assertEquals(expectedResult, v.matchRegex(tin));
+    }
+
+    @ParameterizedTest
+    @DisplayName("be in ranges: GD000-GD499 and HA500-HA999")
+    @CsvSource(value = {
+            "GD111, true",
+            "GD555, false",
+            "HA666, true",
+            "HA333, false",
+            "GA111, false",
+            "HD776, false"
     })
     void tinShouldContainAllowedNumberOfCharacters(final String tin, final boolean expectedResult){
         Validator v = new GBValidator();
