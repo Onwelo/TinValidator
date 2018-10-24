@@ -34,7 +34,7 @@ public class GBValidatorTest {
             "GA111, false",
             "HD776, false"
     })
-    void shotTinRanges(final String tin, final boolean expectedResult){
+    void shortTinRanges(final String tin, final boolean expectedResult){
         Validator v = new GBValidator();
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }

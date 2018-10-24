@@ -11,7 +11,7 @@ public class EEValidatorTest {
     @ParameterizedTest
     @DisplayName("contain nine digits")
     @CsvSource(value = {
-            "111111112, true",
+            "101111112, true",
             "1111111111, false",
             "1, false",
             "99999999, false"
@@ -24,7 +24,7 @@ public class EEValidatorTest {
     @ParameterizedTest
     @DisplayName("not contain letters")
     @CsvSource(value = {
-            "111111112, true",
+            "101111112, true",
             "1111a1112, false",
             "xxxxxxxxx, false"
     })
