@@ -57,21 +57,16 @@ public class ESValidator implements Validator {
                 "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"};
         String lastCharacter = tin.substring(tin.length() - 1);
         String firstCharacter = tin.substring(0, 1);
-        int c1 = 0;
 
         if (firstCharacter.equals("Y")) {
-            c1 = 1;
+            tin = tin.replaceFirst("Y", "1");
         } else if (firstCharacter.equals("Z")) {
-            c1 = 2;
+            tin = tin.replaceFirst("Z", "2");
         }
 
+        firstCharacter = tin.substring(0, 1);
         int startIndex = 1;
-        if (!isNumeric(firstCharacter) && c1 > 0) {
-            firstCharacter = String.valueOf(c1);
-            tin = tin.substring(1);
-            tin = firstCharacter.concat(tin);
-            startIndex = 0;
-        } else if(isNumeric(firstCharacter)) {
+        if (isNumeric(firstCharacter)) {
             startIndex = 0;
         }
 
