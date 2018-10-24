@@ -1,7 +1,6 @@
 package com.onwelo.tinvalidator.factory;
 
 import com.onwelo.tinvalidator.exception.NoSuchValidatorException;
-import com.onwelo.tinvalidator.validator.FRValidator;
 import com.onwelo.tinvalidator.validator.PLValidator;
 import com.onwelo.tinvalidator.validator.Validator;
 import org.junit.jupiter.api.Assertions;
