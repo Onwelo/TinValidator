@@ -24,7 +24,7 @@ public class ESValidator implements Validator {
             boolean isLastCharacterNumeric = isNumeric(lastCharacter);
 
             assert (isLastCharacterNumeric && assertFirstCharactersAllowedIfLastIsADigit.matcher(firstCharacter).matches())
-                    || !isLastCharacterNumeric && assertFirstCharactersAllowedIfLastIsALetter.matcher(firstCharacter).matches();
+                    || (!isLastCharacterNumeric && assertFirstCharactersAllowedIfLastIsALetter.matcher(firstCharacter).matches());
 
             if (!isLastCharacterNumeric && firstCharactersForNonNationalJuridicalEntities.matcher(firstCharacter).matches()) {
                 return computeControlSumForNonNationalJuridicalEntities(tin);
@@ -45,12 +45,20 @@ public class ESValidator implements Validator {
         return checkCharacters[calculateRForJuridicalEntities(tin) - 1].equals(lastCharacter);
     }
 
+
+    private boolean computeControlSumForNationalJuridicalEntities(String tin) {
+        String lastCharacter = tin.substring(tin.length() - 1);
+
+        return Integer.parseInt(lastCharacter) == calculateRForJuridicalEntities(tin) % 10;
+    }
+
     private boolean computeControlSumForPhysicalPersons(String tin) {
         final String[] checkCharacters = new String[]{"T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N",
                 "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"};
         String lastCharacter = tin.substring(tin.length() - 1);
         String firstCharacter = tin.substring(0, 1);
         int c1 = 0;
+
         if (firstCharacter.equals("Y")) {
             c1 = 1;
         } else if (firstCharacter.equals("Z")) {
@@ -70,12 +78,6 @@ public class ESValidator implements Validator {
         int r = Integer.parseInt(tin.substring(startIndex, tin.length() - 1)) % 23 + 1;
 
         return checkCharacters[r - 1].equals(lastCharacter);
-    }
-
-    private boolean computeControlSumForNationalJuridicalEntities(String tin) {
-        String lastCharacter = tin.substring(tin.length() - 1);
-
-        return Integer.parseInt(lastCharacter) == calculateRForJuridicalEntities(tin) % 10;
     }
 
     private int calculateRForJuridicalEntities(String tin) {
