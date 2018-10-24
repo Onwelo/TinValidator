@@ -1,5 +1,7 @@
 package com.onwelo.tinvalidator.validator;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.regex.Pattern;
 
 public class LVValidator implements Validator {
@@ -33,11 +35,16 @@ public class LVValidator implements Validator {
 
     private boolean assertNaturalPerson(String tin) {
         try {
-            assert Integer.parseInt(tin.substring(0,2)) <= 31;
-            assert Integer.parseInt(tin.substring(0,2)) > 0;
-            assert Integer.parseInt(tin.substring(2,4)) <= 12;
+            int century;
+            switch (tin.charAt(6)){
+                case '0': century = 1800;break;
+                case '1': century = 1900;break;
+                case '2': century = 2000;break;
+                default: throw new AssertionError();
+            }
+            LocalDate.of(century + Integer.parseInt(tin.substring(4,6)), Integer.parseInt(tin.substring(2,4)), Integer.parseInt(tin.substring(0,2)));
             return true;
-        } catch (NumberFormatException|AssertionError e) {
+        } catch (NumberFormatException|AssertionError|DateTimeException e) {
             return false;
         }
     }
