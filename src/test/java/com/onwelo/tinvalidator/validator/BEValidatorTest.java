@@ -9,11 +9,11 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class BEValidatorTest {
 
     @ParameterizedTest
-    @DisplayName("contain eleven digits")
+    @DisplayName("contain ten digits")
     @CsvSource(value = {
-            "11111111161, true",
-            "111111111111, false",
-            "1, false",
+            "0111111161, true",
+            "01111111111, false",
+            "01, false",
             "9999999999, false"
     })
     void tinShouldContainElevenDigits(final String tin, final boolean expectedResult){
@@ -24,9 +24,9 @@ public class BEValidatorTest {
     @ParameterizedTest
     @DisplayName("not contain letters")
     @CsvSource(value = {
-            "11111111161, true",
-            "111111a1111, false",
-            "xxxxxxxxxxx, false"
+            "0111111161, true",
+            "01111a1111, false",
+            "xxxxxxxxxx, false"
     })
     void tinShouldNotContainLetters(final String tin, final boolean expectedResult){
         Validator v = new BEValidator();
@@ -36,34 +36,12 @@ public class BEValidatorTest {
     @ParameterizedTest
     @DisplayName("compute control sum correctly")
     @CsvSource(value = {
-            "11111111161, true",
-            "00012511119, true",
-            "11111112161, false",
-            "10012511119, false"
+            "0897224264, true",
+            "886122516, true",
+            "0877224264, false",
+            "886132516, false"
     })
     void tinShouldComputeControlSum(final String tin, final boolean expectedResult){
-        Validator v = new BEValidator();
-        Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
-    }
-
-    @ParameterizedTest
-    @DisplayName("assert month between 0..12")
-    @CsvSource(value = {
-            "11111111161, true",
-            "11311111107, false"
-    })
-    void tinShouldAssertCorrectMonth(final String tin, final boolean expectedResult){
-        Validator v = new BEValidator();
-        Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
-    }
-
-    @ParameterizedTest
-    @DisplayName("assert day between 0..31")
-    @CsvSource(value = {
-            "11111111161, true",
-            "11115111125, false"
-    })
-    void tinShouldAssertCorrectDay(final String tin, final boolean expectedResult){
         Validator v = new BEValidator();
         Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
     }

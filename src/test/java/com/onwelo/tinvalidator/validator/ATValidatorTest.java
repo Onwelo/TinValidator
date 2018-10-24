@@ -9,11 +9,11 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class ATValidatorTest {
 
     @ParameterizedTest
-    @DisplayName("contain nine digits")
+    @DisplayName("contain eight digits")
     @CsvSource(value = {
-            "931736581, true",
-            "11111111111, false",
-            "1, false"
+            "U31736581, true",
+            "U1111111111, false",
+            "U1, false"
     })
     void tinShouldContainTenDigits(final String tin, final boolean expectedResult){
         Validator v = new ATValidator();
@@ -23,9 +23,9 @@ public class ATValidatorTest {
     @ParameterizedTest
     @DisplayName("not contain letters")
     @CsvSource(value = {
-            "111111118, true",
-            "111111a11, false",
-            "xxxxxxxxx, false"
+            "U11111118, true",
+            "U11111a11, false",
+            "Uxxxxxxxx, false"
     })
     void tinShouldNotContainLetters(final String tin, final boolean expectedResult){
         Validator v = new ATValidator();
@@ -35,9 +35,9 @@ public class ATValidatorTest {
     @ParameterizedTest
     @DisplayName("compute control sum correctly")
     @CsvSource(value = {
-            "111111118, true",
-            "931736581, true",
-            "111111123, false",
+            "U10223006, true",
+            "U31736583, true",
+            "U10223005, false",
             "931736582, false"
     })
     void tinShouldComputeControlSum(final String tin, final boolean expectedResult){

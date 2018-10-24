@@ -9,14 +9,14 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class EEValidatorTest {
 
     @ParameterizedTest
-    @DisplayName("contain eleven digits")
+    @DisplayName("contain nine digits")
     @CsvSource(value = {
-            "11111111112, true",
-            "111111111111, false",
+            "111111112, true",
+            "1111111111, false",
             "1, false",
-            "9999999999, false"
+            "99999999, false"
     })
-    void tinShouldContainElevenDigits(final String tin, final boolean expectedResult){
+    void tinShouldContainNineDigits(final String tin, final boolean expectedResult){
         Validator v = new EEValidator();
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
@@ -24,9 +24,9 @@ public class EEValidatorTest {
     @ParameterizedTest
     @DisplayName("not contain letters")
     @CsvSource(value = {
-            "11111111112, true",
-            "111111a1112, false",
-            "xxxxxxxxxxx, false"
+            "111111112, true",
+            "1111a1112, false",
+            "xxxxxxxxx, false"
     })
     void tinShouldNotContainLetters(final String tin, final boolean expectedResult){
         Validator v = new EEValidator();
@@ -36,49 +36,13 @@ public class EEValidatorTest {
     @ParameterizedTest
     @DisplayName("compute control sum correctly")
     @CsvSource(value = {
-            "11111111112, true",
-            "37102250382, true",
-            "32708101201, true",
-            "46304280206, true",
-            "11111111212, false",
-            "37112250382, false",
-            "32709101201, false",
-            "46304286206, false",
+            "100007796, true",
+            "101367804, true",
+            "100027796, false",
+            "101467804, false",
+            "110007796, false"
     })
     void tinShouldComputeControlSum(final String tin, final boolean expectedResult){
-        Validator v = new EEValidator();
-        Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
-    }
-
-    @ParameterizedTest
-    @DisplayName("assert day between 1..31")
-    @CsvSource(value = {
-            "37102250382, true",
-            "37102450382, false"
-    })
-    void tinShouldAssertCorrectDay(final String tin, final boolean expectedResult){
-        Validator v = new EEValidator();
-        Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
-    }
-
-    @ParameterizedTest
-    @DisplayName("assert month between 1..12")
-    @CsvSource(value = {
-            "46304280206, true",
-            "46334280206, false"
-    })
-    void tinShouldAssertCorrectMonth(final String tin, final boolean expectedResult){
-        Validator v = new EEValidator();
-        Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
-    }
-
-    @ParameterizedTest
-    @DisplayName("assert digits 8 to 10 in range 001..710")
-    @CsvSource(value = {
-            "11111111112, true",
-            "11111118102, false"
-    })
-    void tinShouldAssertCorrectValue(final String tin, final boolean expectedResult){
         Validator v = new EEValidator();
         Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
     }

@@ -4,24 +4,22 @@ import java.util.regex.Pattern;
 
 public class ATValidator implements Validator {
 
-    private static final Pattern PATTERN = Pattern.compile("[0-9]{9}");
+    private static final Pattern PATTERN = Pattern.compile("U[0-9]{8}");
 
     public Pattern getPattern(){
         return PATTERN;
     }
 
     public boolean computeControlSum(String tin) {
-        int[] weights = {1, 2, 1, 2, 1, 2, 1, 2};
         try {
-            int sum = 0;
-            for (int i = 0; i < weights.length; i++) {
-                int n = Integer.parseInt(tin.substring(i, i + 1)) * weights[i];
-                if (n > 9){
-                    n = n%10 + n/10;
-                }
-                sum += n;
+            char[] tinArray = tin.toCharArray();
+            for (int i = 0; i < tinArray.length; i++){
+                tinArray[i] -= 48;
             }
-            return ((100 - sum) % 10) == Integer.parseInt(tin.substring(8, 9));
+
+            int R = (tinArray[2]/5 + tinArray[2]*2) % 10 +(tinArray[4]/5 + tinArray[4]*2) % 10 +(tinArray[6]/5 + tinArray[6]*2) % 10;
+
+            return (10 - (R + tinArray[1] + tinArray[3] + tinArray[5] + tinArray[7] +4 ) % 10) % 10 == tinArray[8];
         } catch (NumberFormatException e) {
             return false;
         }
