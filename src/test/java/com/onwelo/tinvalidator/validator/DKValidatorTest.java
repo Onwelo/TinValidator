@@ -9,14 +9,14 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class DKValidatorTest {
 
     @ParameterizedTest
-    @DisplayName("contain ten digits")
+    @DisplayName("contain eight digits")
     @CsvSource(value = {
-            "1111111118, true",
-            "11111111111, false",
+            "11111118, true",
+            "111111111, false",
             "1, false",
-            "999999999, false"
+            "9999999, false"
     })
-    void tinShouldContainTenDigits(final String tin, final boolean expectedResult){
+    void tinShouldContainEightDigits(final String tin, final boolean expectedResult){
         Validator v = new DKValidator();
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
@@ -24,9 +24,9 @@ public class DKValidatorTest {
     @ParameterizedTest
     @DisplayName("not contain letters")
     @CsvSource(value = {
-            "1111111118, true",
-            "111111a111, false",
-            "xxxxxxxxxx, false"
+            "11111118, true",
+            "1111a111, false",
+            "xxxxxxxx, false"
     })
     void tinShouldNotContainLetters(final String tin, final boolean expectedResult){
         Validator v = new DKValidator();
@@ -36,34 +36,12 @@ public class DKValidatorTest {
     @ParameterizedTest
     @DisplayName("compute control sum correctly")
     @CsvSource(value = {
-            "1111111118, true",
-            "0101111113, true",
-            "1111111211, false",
-            "0111111113, false"
+            "11111211, true",
+            "01011111, true",
+            "11111118, false",
+            "01111113, false"
     })
     void tinShouldComputeControlSum(final String tin, final boolean expectedResult){
-        Validator v = new DKValidator();
-        Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
-    }
-
-    @ParameterizedTest
-    @DisplayName("assert day between 1..31")
-    @CsvSource(value = {
-            "0101111113, true",
-            "4101111113, false"
-    })
-    void tinShouldAssertCorrectDay(final String tin, final boolean expectedResult){
-        Validator v = new DKValidator();
-        Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
-    }
-
-    @ParameterizedTest
-    @DisplayName("assert month between 1..12")
-    @CsvSource(value = {
-            "0101111113, true",
-            "0100111113, false"
-    })
-    void tinShouldAssertCorrectMonth(final String tin, final boolean expectedResult){
         Validator v = new DKValidator();
         Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
     }

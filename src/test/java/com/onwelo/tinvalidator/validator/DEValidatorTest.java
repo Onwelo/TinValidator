@@ -5,51 +5,44 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-@DisplayName("Bulgarian TIN should")
-public class BGValidatorTest {
+@DisplayName("German TIN should")
+public class DEValidatorTest {
 
     @ParameterizedTest
-    @DisplayName("contain nine or ten digits")
+    @DisplayName("contain nine digits")
     @CsvSource(value = {
-            "111111111, true",
-            "1111111110, true",
-            "11111111111, false",
+            "111111119, true",
+            "1111111111, false",
             "1, false",
             "99999999, false"
     })
-    void tinShouldContainNineOrTenDigits(final String tin, final boolean expectedResult){
-        Validator v = new BGValidator();
+    void tinShouldContainTenDigits(final String tin, final boolean expectedResult){
+        Validator v = new DEValidator();
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
 
     @ParameterizedTest
     @DisplayName("not contain letters")
     @CsvSource(value = {
-            "111111111, true",
-            "1111111110, true",
-            "111111a111, false",
-            "xxxxxxxxxx, false",
+            "111111119, true",
+            "1111a1119, false",
             "xxxxxxxxx, false"
     })
     void tinShouldNotContainLetters(final String tin, final boolean expectedResult){
-        Validator v = new BGValidator();
+        Validator v = new DEValidator();
         Assertions.assertEquals(expectedResult, v.matchRegex(tin));
     }
 
     @ParameterizedTest
     @DisplayName("compute control sum correctly")
     @CsvSource(value = {
-            "101004508, true",
-            "0041010002, true",
-            "0000100159, true",
-            "0000100153, true",
-            "101014508, false",
-            "0041010012, false",
-            "0000101159, false",
-            "0000100253, false"
+            "111111125, true",
+            "812321109, true",
+            "111111115, false",
+            "812321129, false"
     })
     void tinShouldComputeControlSum(final String tin, final boolean expectedResult){
-        Validator v = new BGValidator();
+        Validator v = new DEValidator();
         Assertions.assertEquals(expectedResult, v.computeControlSum(tin));
     }
 }
