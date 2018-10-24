@@ -28,8 +28,6 @@ public class SIValidator implements Validator {
 
             if (r == 10) {
                 r = 0;
-            } else if (r == 11) {
-                return false;
             }
 
             return checkNumber == r;
