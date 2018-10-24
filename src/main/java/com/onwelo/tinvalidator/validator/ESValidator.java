@@ -88,7 +88,7 @@ public class ESValidator implements Validator {
 
         for (int i = 1; i <= tinArray.length - 1; i += 2) {
             int currentNumber = Character.getNumericValue(tinArray[i]);
-            sum2 += Math.floorDiv(currentNumber, 5) + (currentNumber * 2) % 10;
+            sum2 += currentNumber / 5 + (currentNumber * 2) % 10;
         }
 
         return 10 - (sum1 + sum2) % 10;
