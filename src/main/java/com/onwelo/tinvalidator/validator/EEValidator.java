@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public class EEValidator implements Validator {
 
-    private static final Pattern PATTERN = Pattern.compile("\\d{9}");
+    private static final Pattern PATTERN = Pattern.compile("10\\d{7}");
 
     public Pattern getPattern(){
         return PATTERN;
@@ -13,8 +13,6 @@ public class EEValidator implements Validator {
     public boolean computeControlSum(String tin) {
         int[] weights = {3, 7, 1, 3, 7, 1, 3, 7};
         try {
-            assert Integer.parseInt(tin.substring(0, 2)) == 10;
-
             int sum = 0;
             for (int i = 0; i < weights.length; i++) {
                 sum += Integer.parseInt(tin.substring(i, i + 1)) * weights[i];

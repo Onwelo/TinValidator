@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public class DKValidator implements Validator {
 
-    private static final Pattern PATTERN = Pattern.compile("\\d{8}");
+    private static final Pattern PATTERN = Pattern.compile("[1-9]\\d{7}");
 
     public Pattern getPattern(){
         return PATTERN;
