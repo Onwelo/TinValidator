@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public class LTValidator implements Validator {
 
-    private static final Pattern PATTERN = Pattern.compile("\\d{9}|\\d{10}1\\d");
+    private static final Pattern PATTERN = Pattern.compile("\\d{7}1\\d|\\d{10}1\\d");
 
     public Pattern getPattern(){
         return PATTERN;
