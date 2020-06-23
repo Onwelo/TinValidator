@@ -6,6 +6,17 @@ import com.onwelo.tinvalidator.validator.Validator;
 
 public class TinValidator {
 
+    /**
+     * <p>Entry point of validating mechanism.</p>
+     * <p>Parameter must be full VAT ID number with leading country code
+     * compatible with ISO 3166-1 alpha-2. Each number is validated with
+     * both RegEx pattern and calculated control sum.</p>
+     *
+     * @param tin
+     * @return if validation succeeded
+     * @throws NoSuchValidatorException when not implemented validator
+     * for provided country code
+     */
     public static boolean validate(String tin) throws NoSuchValidatorException {
         String countryCode = extractCountryCode(tin);
 
