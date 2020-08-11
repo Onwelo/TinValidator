@@ -11,7 +11,7 @@ public class NLValidator implements Validator {
     }
 
     public boolean computeControlSum(String tin) {
-//TODO zaimplementować nowy algorytm do wyliczania sumy kontrolnej gdy będzie on znany.
+        //TODO implement new algorithm to calculate checksum
         return true;
     }
 }
