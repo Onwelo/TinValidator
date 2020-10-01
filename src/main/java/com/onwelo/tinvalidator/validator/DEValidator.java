@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public class DEValidator implements Validator {
 
-    private static final Pattern PATTERN = Pattern.compile("[0-9]\\d{9}");
+    private static final Pattern PATTERN = Pattern.compile("[0-9]{9}");
 
     public Pattern getPattern(){
         return PATTERN;
